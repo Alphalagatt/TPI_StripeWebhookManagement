@@ -1,0 +1,16 @@
+{
+  "name": "tpi_stripewebhookmanagement",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "dotenv": "^16.5.0",
+    "processenv": "^3.0.9",
+    "stripe": "^18.0.0"
+  },
+  "main": "src/index.js"
+}
