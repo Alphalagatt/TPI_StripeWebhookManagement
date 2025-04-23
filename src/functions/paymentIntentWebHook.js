@@ -1,13 +1,22 @@
 const stripe = require('stripe')(process.env.SECRET_KEY); // Replace with your actual secret key
 
-function paymentIntentWebHook(request, context) {
-    const webhookSecret = process.env.WEBHOOK_SECRET; // Replace with your actual webhook secret
-    context.log(context);
-    context.log(request.headers); // Log the request object for debugging
-    const sig = request.headers['stripe-signature'];
-    const body = request.params; // Use raw body for signature verificatio
+async function getRawBodyFromReadable(readable) {
+    const chunks = [];
+    for await (const chunk of readable) {
+      chunks.push(chunk);
+    }
+    return Buffer.concat(chunks).toString('utf8'); // or 'ascii' if needed
+  }
+
+async function paymentIntentWebHook(request,context) {
+    const webhookSecret = process.env.WEBHOOK_SECRET;
+    const sig = request.headers.get('stripe-signature');
+    
+    const rawBody = await getRawBodyFromReadable(request.body);
+    
+   
     try {
-        const event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+        const event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
 
         // Handle the event
         switch (event.type) {
@@ -26,12 +35,12 @@ function paymentIntentWebHook(request, context) {
         }
         // Return a response to acknowledge receipt of the event
         context.log(`Webhook processed successfully`);
-        /*
+        
         return {
             status: 200,
             body: event.data.object // Return the event object for further processing if needed
         };
-*/
+
 
     } catch (err) {
         context.log(`Webhook signature verification failed: ${err.message}`);

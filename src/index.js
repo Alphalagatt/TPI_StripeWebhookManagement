@@ -2,6 +2,7 @@ const { app } = require('@azure/functions');
 
 app.setup({
     enableHttpStream: true,
+    
 });
 
 // This function is triggered when a payment intent webhook is received
