@@ -38,7 +38,7 @@ async function paymentIntentWebHook(request,context) {
         
         return {
             status: 200,
-            body: event.data.object // Return the event object for further processing if needed
+            body: JSON.stringify(event.data.object) // Return the event object for further processing if needed
         };
 
 
