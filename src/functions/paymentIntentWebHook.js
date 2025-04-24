@@ -37,7 +37,7 @@ async function paymentIntentWebHook(request,context) {
         // Return a response to acknowledge receipt of the event
         context.log(`Webhook processed successfully`);
 
-        const callbackUrl = request.query.callbackUrl;
+        const callbackUrl = request.headers.get("callbackUrl");
 
         //callbackUrl is the URL to which you want to send the response..
 
