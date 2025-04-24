@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
+    "axios": "^1.8.4",
     "dotenv": "^16.5.0",
     "processenv": "^3.0.9",
     "stripe": "^18.0.0"

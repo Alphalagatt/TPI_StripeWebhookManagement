@@ -1,4 +1,5 @@
 const stripe = require('stripe')(process.env.SECRET_KEY); // Replace with your actual secret key
+const axios = require('axios');
 
 async function getRawBodyFromReadable(readable) {
     const chunks = [];
@@ -35,6 +36,14 @@ async function paymentIntentWebHook(request,context) {
         }
         // Return a response to acknowledge receipt of the event
         context.log(`Webhook processed successfully`);
+
+        const callbackUrl = request.query.callbackUrl;
+
+        //callbackUrl is the URL to which you want to send the response..
+
+        axios.post(callbackUrl, (req, res) => {
+            res.status(200).json(JSON.stringify(event.data.object)); // Send the event object as a response
+        });
         
         return {
             status: 200,
